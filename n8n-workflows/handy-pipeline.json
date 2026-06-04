@@ -17,29 +17,12 @@
     },
     {
       "parameters": {
-        "method": "GET",
-        "url": "https://services.leadconnectorhq.com/opportunities/search",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            { "name": "Authorization", "value": "Bearer pit-ff5aba76-55ac-455b-808b-58e9eea57401" },
-            { "name": "Version", "value": "2021-07-28" }
-          ]
-        },
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            { "name": "location_id", "value": "2NWNfytBoVdfJkHcax24" },
-            { "name": "pipeline_id", "value": "fFEhoqrG9BTGV6ZXWyZX" },
-            { "name": "limit", "value": "100" }
-          ]
-        },
-        "options": {}
+        "jsCode": "const TOKEN = 'pit-ff5aba76-55ac-455b-808b-58e9eea57401';\nconst LOCATION_ID = '2NWNfytBoVdfJkHcax24';\nconst PIPELINE_ID = 'fFEhoqrG9BTGV6ZXWyZX';\n\nlet all = [];\nlet page = 1;\nlet hasMore = true;\n\nwhile (hasMore) {\n  const url = `https://services.leadconnectorhq.com/opportunities/search?location_id=${LOCATION_ID}&pipeline_id=${PIPELINE_ID}&limit=100&page=${page}`;\n  const res = await fetch(url, {\n    headers: { 'Authorization': `Bearer ${TOKEN}`, 'Version': '2021-07-28' }\n  });\n  const data = await res.json();\n  const opps = data.opportunities || [];\n  all = all.concat(opps);\n  const total = data.meta?.total || data.total || 0;\n  if (opps.length < 100 || all.length >= total || page >= 20) {\n    hasMore = false;\n  } else {\n    page++;\n  }\n}\n\nreturn [{ json: { opportunities: all } }];"
       },
       "id": "aa000001-0001-0001-0001-000000000002",
-      "name": "Fetch Opportunities",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "name": "Fetch All Opportunities",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [460, 300]
     },
     {
@@ -73,8 +56,8 @@
     }
   ],
   "connections": {
-    "Webhook": { "main": [[{ "node": "Fetch Opportunities", "type": "main", "index": 0 }]] },
-    "Fetch Opportunities": { "main": [[{ "node": "Transform Data", "type": "main", "index": 0 }]] },
+    "Webhook": { "main": [[{ "node": "Fetch All Opportunities", "type": "main", "index": 0 }]] },
+    "Fetch All Opportunities": { "main": [[{ "node": "Transform Data", "type": "main", "index": 0 }]] },
     "Transform Data": { "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]] }
   },
   "active": true,
