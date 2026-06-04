@@ -1,0 +1,123 @@
+{
+  "name": "Handy Dashboard — Pipeline v2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "handy-pipeline",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "aa000002-0001-0001-0001-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "handy-pipeline"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://services.leadconnectorhq.com/opportunities/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Bearer pit-ff5aba76-55ac-455b-808b-58e9eea57401" },
+            { "name": "Version", "value": "2021-07-28" }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "location_id", "value": "2NWNfytBoVdfJkHcax24" },
+            { "name": "pipeline_id", "value": "fFEhoqrG9BTGV6ZXWyZX" },
+            { "name": "limit", "value": "100" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "aa000002-0001-0001-0001-000000000002",
+      "name": "Fetch Page 1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.all()[0].json;\nconst opps = data.opportunities || [];\nconst lastId = opps.length > 0 ? opps[opps.length - 1].id : null;\nreturn [{ json: { page1: opps, lastId, hasMore: opps.length === 100 } }];"
+      },
+      "id": "aa000002-0001-0001-0001-000000000003",
+      "name": "Extract Cursor",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://services.leadconnectorhq.com/opportunities/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Bearer pit-ff5aba76-55ac-455b-808b-58e9eea57401" },
+            { "name": "Version", "value": "2021-07-28" }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "location_id", "value": "2NWNfytBoVdfJkHcax24" },
+            { "name": "pipeline_id", "value": "fFEhoqrG9BTGV6ZXWyZX" },
+            { "name": "limit", "value": "100" },
+            { "name": "startAfterId", "value": "={{ $('Extract Cursor').item.json.lastId }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "aa000002-0001-0001-0001-000000000004",
+      "name": "Fetch Page 2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const STAGE_MAP = {\n  '7c81c61e-842c-468c-b04e-323ee3c5d250': 'New Inquiry',\n  'e393711e-4729-4cc4-b7a1-ecc710129858': 'HP Applications',\n  '366879a9-3eaf-4700-93d9-f6f775457e09': 'For Follow Up',\n  '6a9fe7a6-26a1-4acd-a92b-f95b67e83dfa': 'Info Incomplete',\n  'a3edb190-8da2-4af7-ac5c-c4b7c605b6c8': 'Out of Service Area – Waitlist',\n  '930fab05-e7ca-486d-a5b0-8af0ab210db2': 'For HP Matching',\n  'b23c75fa-e52e-473a-862f-c700f8cf3089': 'Worker options sent',\n  '94beffdb-a4a5-45d8-97cb-4ff65f30aec8': 'Worker assigned',\n  '8c10fca2-c8d4-421a-8f51-9f8bf3708d99': 'Assessment/Quotation (Cleaning)',\n  'b997bdc5-88de-42ed-a426-bc5ff60a14fd': 'Assessment/Quotation (Skilled)',\n  '5419fa36-ee9c-4a4e-82a2-a65155e9d833': 'For HP Matching',\n  'dc963318-adbf-4765-8970-3628a000641d': 'No HP Match',\n  'e22b9210-9db3-4023-9a68-9e9221a4e0ba': 'FaceCard / For Downpayment',\n  'fd82ade4-cb50-46ac-9f33-83e999379a89': 'Downpayment verification',\n  'f43ca21f-0394-410e-9271-b988e4275a51': 'Confirmed',\n  '774be07c-a608-44ff-964e-b6eeb1d11cfb': \"Today's Booking\",\n  '2b1848d6-8df9-4440-ba20-b6b1509e736c': 'Job In Progress',\n  '4a31c624-f5a4-41a8-8fe5-3c60c20b0291': 'Full Payment Confirmation',\n  '3417461b-910b-44e1-96ee-cb84fa203f6a': 'HP Payment',\n  'f6d6c3a3-a410-4ee4-b235-9e882dd2da5a': 'Job Completed',\n  '8385f79f-70bc-48a9-8299-51f8ca3f3b2a': 'E-Receipt Sent',\n  'b5020622-a1cd-463e-b844-54fd6fb1acb7': 'Cancelled by Client',\n  '4bab4d11-6fb3-4167-b89c-c9f3c0839633': 'Cancelled by HP',\n  '3b459ba0-2464-46c0-9383-a54d80903dea': 'Complaint_Rework',\n  'e2b91d1d-1ab4-448a-ae6f-f258e69eac04': 'For Reschedule',\n  'c34897e0-1887-4e6f-b6ad-35ef68382c95': 'Dump',\n  'b54f6ad9-9b21-4f25-925b-250ab252604e': 'NCNS'\n};\nconst CH_MAP = {\n  TYPE_FACEBOOK:'Messenger',TYPE_SMS:'SMS',TYPE_PHONE:'SMS',\n  TYPE_INSTAGRAM:'Instagram',TYPE_WHATSAPP:'Messenger',\n  TYPE_LIVE_CHAT:'SMS',TYPE_WEBCHAT:'SMS',TYPE_VIBER:'Viber'\n};\nfunction parseName(raw) {\n  if (!raw) return { code:'', service:'General Service' };\n  const parts = raw.split(' - ');\n  const code = parts[0]?.trim() || '';\n  const service = parts.length >= 3 ? parts[parts.length-1].trim() : (parts[1]?.trim() || raw);\n  return { code, service: service || 'Service' };\n}\n\nconst page1 = $('Extract Cursor').all()[0]?.json?.page1 || [];\nconst page2 = $input.all()[0]?.json?.opportunities || [];\nconst opps = [...page1, ...page2];\n\nconst counts = {};\nconst bookings = [];\nlet paymentTotal = 0, todayInquiries = 0, weekConfirmed = 0;\nlet todayScheduled = 0, completedThisMonth = 0, monthInquiries = 0;\n\nconst PAYMENT_STAGES = ['FaceCard / For Downpayment','Downpayment verification','Full Payment Confirmation'];\nconst CONFIRMED_STAGES = ['Confirmed',\"Today's Booking\",'Job In Progress','Full Payment Confirmation','HP Payment','Job Completed','E-Receipt Sent'];\nconst MONTH_START = new Date(); MONTH_START.setDate(1); MONTH_START.setHours(0,0,0,0);\nconst wd = new Date().getDay();\nconst WEEK_START = new Date(); WEEK_START.setDate(WEEK_START.getDate()-(wd===0?6:wd-1)); WEEK_START.setHours(0,0,0,0);\nconst TODAY_START = new Date(); TODAY_START.setHours(0,0,0,0);\n\nopps.forEach(o => {\n  const stage = STAGE_MAP[o.pipelineStageId] || 'Unknown';\n  counts[stage] = (counts[stage] || 0) + 1;\n  if (PAYMENT_STAGES.includes(stage)) paymentTotal += (o.monetaryValue || 0);\n  const created = o.createdAt ? new Date(o.createdAt) : null;\n  const updated = o.updatedAt ? new Date(o.updatedAt) : null;\n  if (stage === 'New Inquiry' && created && created >= TODAY_START) todayInquiries++;\n  if (created && created >= MONTH_START) monthInquiries++;\n  if (CONFIRMED_STAGES.includes(stage) && updated && updated >= WEEK_START) weekConfirmed++;\n  if (stage === \"Today's Booking\") todayScheduled++;\n  if (stage === 'Job Completed' && updated && updated >= MONTH_START) completedThisMonth++;\n  if (bookings.length < 30) {\n    const { code, service } = parseName(o.name);\n    bookings.push({\n      id: code || ('HS-'+o.id.slice(-4).toUpperCase()), ghlId: o.id,\n      client: o.contact?.name || o.name || 'Client', service,\n      city: o.contact?.city || '', stage,\n      when: created ? created.toLocaleDateString('en-PH',{month:'short',day:'numeric'}) : '',\n      amount: o.monetaryValue||0, channel: CH_MAP[o.contact?.type]||'SMS', hp:null, note:''\n    });\n  }\n});\n\nconst conversionRate = monthInquiries > 0 ? ((completedThisMonth/monthInquiries)*100).toFixed(1) : '0.0';\nreturn [{ json: { counts, bookings, paymentTotal, completedThisMonth, total: opps.length, todayInquiries, weekConfirmed, todayScheduled, monthInquiries, conversionRate, updatedAt: new Date().toISOString() } }];"
+      },
+      "id": "aa000002-0001-0001-0001-000000000005",
+      "name": "Merge & Transform",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              { "name": "Access-Control-Allow-Origin", "value": "*" },
+              { "name": "Content-Type", "value": "application/json" }
+            ]
+          }
+        }
+      },
+      "id": "aa000002-0001-0001-0001-000000000006",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1340, 300]
+    }
+  ],
+  "connections": {
+    "Webhook":        { "main": [[{ "node": "Fetch Page 1",       "type": "main", "index": 0 }]] },
+    "Fetch Page 1":   { "main": [[{ "node": "Extract Cursor",     "type": "main", "index": 0 }]] },
+    "Extract Cursor": { "main": [[{ "node": "Fetch Page 2",       "type": "main", "index": 0 }]] },
+    "Fetch Page 2":   { "main": [[{ "node": "Merge & Transform",  "type": "main", "index": 0 }]] },
+    "Merge & Transform": { "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]] }
+  },
+  "active": true,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "handy-dashboard" }]
+}
