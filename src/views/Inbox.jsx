@@ -23,26 +23,47 @@ function ConvRow({ c, active, onClick }) {
   )
 }
 
-export function Inbox({ openBooking }) {
-  const [active, setActive] = useState(CONVERSATIONS[0])
+function buildConvFromLive(t) {
+  return {
+    id: t.id,
+    name: t.name,
+    channel: t.channel,
+    online: false,
+    preview: t.lastMsg || "…",
+    time: t.when,
+    unread: t.unread,
+    bookingId: null,
+    msgs: [{ from: "them", t: t.when, body: t.lastMsg || "…" }],
+  }
+}
+
+export function Inbox({ openBooking, liveData }) {
+  const liveThreads = liveData?.threads || []
+  const convList = liveThreads.length > 0
+    ? liveThreads.map(buildConvFromLive)
+    : CONVERSATIONS
+
+  const [active, setActive] = useState(convList[0])
   const [draft, setDraft] = useState("")
   const [extra, setExtra] = useState([])
   const threadRef = useRef(null)
 
-  const msgs = [...active.msgs, ...extra.filter(m => m.cid === active.id)]
+  const currentActive = convList.find(c => c.id === active?.id) || convList[0]
+  const msgs = [...(currentActive?.msgs || []), ...extra.filter(m => m.cid === currentActive?.id)]
 
   useEffect(() => {
     if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight
-  }, [active, extra])
+  }, [currentActive, extra])
 
   const send = () => {
     if (!draft.trim()) return
-    setExtra(e => [...e, { cid: active.id, from: "me", t: "Now", body: draft.trim() }])
+    setExtra(e => [...e, { cid: currentActive.id, from: "me", t: "Now", body: draft.trim() }])
     setDraft("")
   }
 
-  const booking = BOOKINGS.find(b => b.id === active.bookingId)
+  const booking = BOOKINGS.find(b => b.id === currentActive?.bookingId)
   const sc = booking ? STAGE_COLOR[booking.stage] : null
+  const totalUnread = liveData?.totalUnread ?? convList.reduce((s, c) => s + (c.unread || 0), 0)
 
   return (
     <div className="inbox">
@@ -51,13 +72,13 @@ export function Inbox({ openBooking }) {
         <div className="inbox-list-head">
           <div className="tabs">
             <button className="tab active">All</button>
-            <button className="tab">Unread <span className="tab-n">3</span></button>
+            <button className="tab">Unread {totalUnread > 0 && <span className="tab-n">{totalUnread}</span>}</button>
             <button className="tab">Assigned</button>
           </div>
         </div>
         <div className="scroll">
-          {CONVERSATIONS.map(c => (
-            <ConvRow key={c.id} c={c} active={active.id === c.id} onClick={setActive} />
+          {convList.map(c => (
+            <ConvRow key={c.id} c={c} active={currentActive?.id === c.id} onClick={setActive} />
           ))}
         </div>
       </div>
@@ -65,10 +86,10 @@ export function Inbox({ openBooking }) {
       {/* Thread */}
       <div className="thread">
         <div className="thread-head">
-          <Avatar name={active.name} size={36} channel={active.channel} online={active.online} />
+          <Avatar name={currentActive?.name} size={36} channel={currentActive?.channel} online={currentActive?.online} />
           <div className="thread-who">
-            <b>{active.name}</b>
-            <small>{active.online ? "Active now" : "Offline"} · via {active.channel}</small>
+            <b>{currentActive?.name}</b>
+            <small>{currentActive?.online ? "Active now" : "Offline"} · via {currentActive?.channel}</small>
           </div>
           <div className="thread-acts">
             <button className="icon-btn" title="Call"><Icon name="phone" size={17} /></button>

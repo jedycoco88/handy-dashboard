@@ -46,34 +46,44 @@ function FunnelRow({ label, count, max, color }) {
   )
 }
 
-export function Overview({ openBooking, setView }) {
-  const funnel = [
-    ["New Inquiry", 134], ["For Follow Up", 672], ["Quotation", 48],
-    ["For Downpayment", 6], ["Confirmed", 9], ["Job In Progress", 0], ["Job Completed", 14],
-  ].map(([l, c]) => {
+export function Overview({ openBooking, setView, liveData }) {
+  const counts = liveData?.counts || {}
+  const funnelStages = [
+    "New Inquiry", "For Follow Up", "Assessment/Quotation (Cleaning)",
+    "FaceCard / For Downpayment", "Confirmed", "Job In Progress", "Job Completed",
+  ]
+  const funnel = funnelStages.map(l => {
     const sc = STAGE_COLOR[l] || STAGE_COLOR["New Inquiry"]
-    return { label: l, count: c, color: sc.color, soft: sc.soft }
+    return { label: l, count: counts[l] ?? 0, color: sc.color, soft: sc.soft }
   })
-  const max = Math.max(...funnel.map(f => f.count))
-  const today = BOOKINGS.filter(b => b.when.startsWith("Today") || b.stage === "Today's Booking")
-  const inquiries = BOOKINGS.filter(b => b.stage === "New Inquiry" || b.stage === "Worker options sent")
+  const max = Math.max(...funnel.map(f => f.count), 1)
+
+  const liveBookings = liveData?.bookings || []
+  const allBookings = liveBookings.length > 0 ? liveBookings : BOOKINGS
+  const today = allBookings.filter(b => b.stage === "Today's Booking" || b.stage === "Job In Progress")
+  const inquiries = allBookings.filter(b => b.stage === "New Inquiry" || b.stage === "Worker options sent").slice(0, 8)
+
+  const newInquiry = counts["New Inquiry"] ?? 134
+  const confirmed = (counts["Confirmed"] ?? 0) + (counts["Today's Booking"] ?? 0)
+  const paymentTotal = liveData?.paymentTotal ?? 87250
+  const completedMo = liveData?.completedThisMonth ?? 142
 
   return (
     <div className="scroll">
       <div className="overview">
         <div className="kpi-grid">
-          <Kpi label="New Inquiry" value={134} icon="inbox"
+          <Kpi label="New Inquiry" value={newInquiry} icon="inbox"
             color="var(--stage-inquiry)" soft="var(--stage-inquiry-soft)"
-            delta="+12 today" deltaTone="var(--success)" />
-          <Kpi label="Confirmed" value={31} icon="calendar-check"
+            delta={liveData ? "live from GHL" : "sample data"} deltaTone="var(--success)" />
+          <Kpi label="Confirmed" value={confirmed} icon="calendar-check"
             color="var(--stage-confirmed)" soft="var(--stage-confirmed-soft)"
-            delta="8 today · 23 upcoming" deltaTone="var(--fg-3)" />
-          <Kpi label="For Payment" value={87250} money icon="wallet"
+            delta={`${counts["Today's Booking"] ?? 0} today`} deltaTone="var(--fg-3)" />
+          <Kpi label="For Payment" value={paymentTotal} money icon="wallet"
             color="var(--stage-payment)" soft="var(--stage-payment-soft)"
-            delta="6 awaiting downpayment" deltaTone="var(--warning)" />
-          <Kpi label="Completed (mo.)" value={142} icon="circle-check-big"
+            delta={`${(counts["FaceCard / For Downpayment"] ?? 0) + (counts["Downpayment verification"] ?? 0)} awaiting`} deltaTone="var(--warning)" />
+          <Kpi label="Completed (mo.)" value={completedMo} icon="circle-check-big"
             color="var(--stage-completed)" soft="var(--stage-completed-soft)"
-            delta="₱428,500 collected" deltaTone="var(--success)" />
+            delta={liveData ? "this month" : "sample data"} deltaTone="var(--success)" />
         </div>
 
         <div className="overview-cols">

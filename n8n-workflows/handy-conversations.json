@@ -1,0 +1,84 @@
+{
+  "name": "Handy Dashboard — Conversations",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "handy-conversations",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "bb000002-0002-0002-0002-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "handy-conversations"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://services.leadconnectorhq.com/conversations/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Bearer pit-ff5aba76-55ac-455b-808b-58e9eea57401" },
+            { "name": "Version", "value": "2021-04-15" }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "locationId", "value": "2NWNfytBoVdfJkHcax24" },
+            { "name": "limit", "value": "30" },
+            { "name": "sort", "value": "desc" },
+            { "name": "sortBy", "value": "last_message_date" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bb000002-0002-0002-0002-000000000002",
+      "name": "Fetch Conversations",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const CH_MAP = {\n  TYPE_FACEBOOK: 'Messenger', TYPE_SMS: 'SMS', TYPE_PHONE: 'SMS',\n  TYPE_INSTAGRAM: 'Instagram', TYPE_WHATSAPP: 'Messenger',\n  TYPE_LIVE_CHAT: 'SMS', TYPE_WEBCHAT: 'SMS', TYPE_VIBER: 'Viber'\n};\n\nconst raw = $input.all()[0].json;\nconst convs = raw.conversations || [];\n\nconst threads = convs.map(c => {\n  const lastMsg = c.lastMessage || c.lastMessageBody || '';\n  const unread = c.unreadCount || 0;\n  const ts = c.lastMessageDate ? new Date(c.lastMessageDate) : new Date(c.dateAdded || Date.now());\n  const nowMs = Date.now();\n  const diffMs = nowMs - ts.getTime();\n  const diffMin = Math.floor(diffMs / 60000);\n  const diffH = Math.floor(diffMs / 3600000);\n  const diffD = Math.floor(diffMs / 86400000);\n  let when;\n  if (diffMin < 60) when = diffMin <= 1 ? 'just now' : `${diffMin}m ago`;\n  else if (diffH < 24) when = `${diffH}h ago`;\n  else when = `${diffD}d ago`;\n\n  return {\n    id: c.id,\n    contactId: c.contactId,\n    name: c.fullName || c.contactName || 'Client',\n    lastMsg: typeof lastMsg === 'string' ? lastMsg.slice(0, 120) : '',\n    when,\n    unread,\n    channel: CH_MAP[c.type] || 'SMS',\n    city: c.city || '',\n    assignedTo: c.assignedTo || null\n  };\n});\n\nconst totalUnread = threads.reduce((s, t) => s + t.unread, 0);\n\nreturn [{ json: { threads, totalUnread, total: threads.length, updatedAt: new Date().toISOString() } }];"
+      },
+      "id": "bb000002-0002-0002-0002-000000000003",
+      "name": "Transform Conversations",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              { "name": "Access-Control-Allow-Origin", "value": "*" },
+              { "name": "Content-Type", "value": "application/json" }
+            ]
+          }
+        }
+      },
+      "id": "bb000002-0002-0002-0002-000000000004",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[{ "node": "Fetch Conversations", "type": "main", "index": 0 }]] },
+    "Fetch Conversations": { "main": [[{ "node": "Transform Conversations", "type": "main", "index": 0 }]] },
+    "Transform Conversations": { "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]] }
+  },
+  "active": true,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "handy-dashboard" }]
+}

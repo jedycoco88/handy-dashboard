@@ -25,11 +25,15 @@ function KanbanCard({ b, onClick }) {
   )
 }
 
-export function Pipeline({ openBooking }) {
+export function Pipeline({ openBooking, liveData }) {
   const [filter, setFilter] = useState("all")
   const activeGroups = filter === "all" ? STAGE_GROUPS : STAGE_GROUPS.filter(g => g.key === filter)
-  const countOf = Object.fromEntries(PIPELINE_COUNTS)
-  const cardsFor = (stage) => BOOKINGS.filter(b => b.stage === stage)
+  const staticCounts = Object.fromEntries(PIPELINE_COUNTS)
+  const liveCounts = liveData?.counts || {}
+  const countOf = liveData ? liveCounts : staticCounts
+  const liveBookings = liveData?.bookings || []
+  const allBookings = liveBookings.length > 0 ? liveBookings : BOOKINGS
+  const cardsFor = (stage) => allBookings.filter(b => b.stage === stage)
 
   return (
     <div className="pipeline">
