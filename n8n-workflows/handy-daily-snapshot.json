@@ -1,0 +1,77 @@
+{
+  "name": "Handy Dashboard — Daily Snapshot",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "cronExpression", "expression": "55 15 * * *" }]
+        }
+      },
+      "id": "cc000003-0003-0003-0003-000000000001",
+      "name": "Every Night 11:55 PM PHT",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://n8n.dy7io.com/webhook/handy-pipeline",
+        "options": {}
+      },
+      "id": "cc000003-0003-0003-0003-000000000002",
+      "name": "Fetch Pipeline Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $input.all()[0].json;\nconst c = d.counts || {};\nconst today = new Date().toLocaleDateString('en-PH', { timeZone: 'Asia/Manila', year: 'numeric', month: '2-digit', day: '2-digit' });\n\nconst cancelled = (c['Cancelled by Client'] || 0) + (c['Cancelled by HP'] || 0);\nconst lost = (c['Dump'] || 0) + (c['NCNS'] || 0);\nconst active = (c['Confirmed'] || 0) + (c[\"Today's Booking\"] || 0) + (c['Job In Progress'] || 0);\nconst forPayment = (c['FaceCard / For Downpayment'] || 0) + (c['Downpayment verification'] || 0) + (c['Full Payment Confirmation'] || 0);\n\nreturn [{ json: {\n  Date: today,\n  Total: d.total || 0,\n  New_Inquiry: c['New Inquiry'] || 0,\n  HP_Applications: c['HP Applications'] || 0,\n  For_Follow_Up: c['For Follow Up'] || 0,\n  For_HP_Matching: c['For HP Matching'] || 0,\n  Worker_Assigned: c['Worker assigned'] || 0,\n  Assessment_Cleaning: c['Assessment/Quotation (Cleaning)'] || 0,\n  Assessment_Skilled: c['Assessment/Quotation (Skilled)'] || 0,\n  For_Payment: forPayment,\n  Active_Bookings: active,\n  Job_In_Progress: c['Job In Progress'] || 0,\n  Completed_Month: d.completedThisMonth || 0,\n  E_Receipt_Sent: c['E-Receipt Sent'] || 0,\n  Cancelled: cancelled,\n  Lost_Dump_NCNS: lost,\n  Payment_Pipeline: d.paymentTotal || 0\n} }];"
+      },
+      "id": "cc000003-0003-0003-0003-000000000003",
+      "name": "Format Snapshot Row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "15_6O0ZIeWvY144pTee01euZFPo2SWfHnEYOEeKPZS2o",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {}
+        },
+        "options": { "useAppend": true }
+      },
+      "id": "cc000003-0003-0003-0003-000000000004",
+      "name": "Append to Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [900, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every Night 11:55 PM PHT": { "main": [[{ "node": "Fetch Pipeline Data", "type": "main", "index": 0 }]] },
+    "Fetch Pipeline Data": { "main": [[{ "node": "Format Snapshot Row", "type": "main", "index": 0 }]] },
+    "Format Snapshot Row": { "main": [[{ "node": "Append to Google Sheet", "type": "main", "index": 0 }]] }
+  },
+  "active": true,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "handy-dashboard" }]
+}
