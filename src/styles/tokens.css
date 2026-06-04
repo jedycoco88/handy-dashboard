@@ -1,0 +1,123 @@
+/* ============================================================
+   Handy Services PH — Design System Tokens
+   Dark-first operations dashboard. Orange (action) + Navy (structure).
+   ============================================================ */
+
+:root {
+  /* Brand */
+  --brand-orange:        #ff6000;
+  --brand-orange-bright: #ff7d33;
+  --brand-orange-deep:   #d94e00;
+  --brand-navy:          #003090;
+  --brand-blue-bright:   #4d82e8;
+
+  /* Surfaces (dark navy-tinted) */
+  --bg-0:  #080b18;
+  --bg-1:  #0e1426;
+  --bg-2:  #161f38;
+  --bg-3:  #1d2945;
+  --bg-4:  #283a63;
+
+  /* Borders */
+  --border-1:  rgba(255,255,255,0.07);
+  --border-2:  rgba(255,255,255,0.12);
+  --border-3:  rgba(255,255,255,0.20);
+
+  /* Foreground */
+  --fg-1:  #f3f6fc;
+  --fg-2:  #b6c0d4;
+  --fg-3:  #7b8699;
+  --fg-4:  #515c70;
+  --fg-on-brand: #ffffff;
+
+  /* Primary (orange) */
+  --primary:        var(--brand-orange);
+  --primary-hover:  var(--brand-orange-bright);
+  --primary-press:  var(--brand-orange-deep);
+  --primary-fg:     #ffffff;
+  --primary-soft:   rgba(255,96,0,0.15);
+  --primary-ring:   rgba(255,96,0,0.45);
+
+  /* Accent (blue) */
+  --accent:        var(--brand-blue-bright);
+  --accent-hover:  #6a97ee;
+  --accent-fg:     #ffffff;
+  --accent-soft:   rgba(77,130,232,0.16);
+
+  /* Semantic */
+  --success:      #34d399;   --success-soft: rgba(52,211,153,0.15);
+  --warning:      #fbbf24;   --warning-soft: rgba(251,191,36,0.15);
+  --danger:       #fb7185;   --danger-soft:  rgba(251,113,133,0.15);
+  --info:         #56b6ff;   --info-soft:    rgba(86,182,255,0.15);
+
+  /* Pipeline stage colors */
+  --stage-inquiry:    #6ea8ff;  --stage-inquiry-soft:    rgba(110,168,255,0.16);
+  --stage-intake:     #f7a823;  --stage-intake-soft:     rgba(247,168,35,0.16);
+  --stage-matching:   #b692ff;  --stage-matching-soft:   rgba(182,146,255,0.16);
+  --stage-quotation:  #5ad1c4;  --stage-quotation-soft:  rgba(90,209,196,0.16);
+  --stage-payment:    #ff9d5c;  --stage-payment-soft:    rgba(255,157,92,0.16);
+  --stage-confirmed:  #8aa6ff;  --stage-confirmed-soft:  rgba(138,166,255,0.16);
+  --stage-progress:   #e08ad8;  --stage-progress-soft:   rgba(224,138,216,0.16);
+  --stage-completed:  #56d39a;  --stage-completed-soft:  rgba(86,211,154,0.16);
+  --stage-issue:      #fb7d8e;  --stage-issue-soft:      rgba(251,125,142,0.16);
+  --stage-neutral:    #97a1b4;  --stage-neutral-soft:    rgba(151,161,180,0.14);
+
+  /* Channel colors */
+  --ch-messenger: #2e8bff;
+  --ch-sms:       #34d399;
+  --ch-instagram: #e1559a;
+  --ch-viber:     #7d4cdb;
+
+  /* Typography */
+  --font-sans: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Type scale */
+  --text-display: 2.75rem;
+  --text-h1:      2rem;
+  --text-h2:      1.5rem;
+  --text-h3:      1.25rem;
+  --text-lg:      1.0625rem;
+  --text-base:    0.9375rem;
+  --text-sm:      0.8125rem;
+  --text-xs:      0.75rem;
+  --text-2xs:     0.6875rem;
+
+  /* Weights */
+  --w-regular:  400;
+  --w-medium:   500;
+  --w-semibold: 600;
+  --w-bold:     700;
+  --w-extra:    800;
+
+  /* Radii */
+  --r-xs:  4px;
+  --r-sm:  6px;
+  --r-md:  10px;
+  --r-lg:  14px;
+  --r-xl:  20px;
+  --r-pill: 999px;
+
+  /* Spacing */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.40);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.45);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.55);
+  --shadow-pop: 0 12px 32px rgba(0,0,0,0.60);
+  --glow-primary: 0 0 0 1px var(--primary-ring), 0 6px 20px rgba(255,96,0,0.28);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-mid:  200ms;
+  --dur-slow: 320ms;
+
+  /* Letter spacing */
+  --ls-tight:   -0.02em;
+  --ls-normal:  0;
+  --ls-label:   0.06em;
+}
