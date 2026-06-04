@@ -67,11 +67,14 @@ const VIEW_TITLES = {
 }
 
 export function Topbar({ view, onNewBooking }) {
+  const now = new Date()
+  const dateStr = now.toLocaleDateString('en-PH', { weekday: 'long', month: 'short', day: 'numeric' })
+  const timeStr = now.toLocaleTimeString('en-PH', { hour: 'numeric', minute: '2-digit' })
   return (
     <header className="topbar">
       <div className="topbar-l">
         <h1 className="topbar-title">{VIEW_TITLES[view] || "Overview"}</h1>
-        <span className="topbar-date">Tuesday, Jun 9 · 4:04 PM</span>
+        <span className="topbar-date">{dateStr} · {timeStr}</span>
       </div>
       <div className="search">
         <Icon name="search" size={17} />
