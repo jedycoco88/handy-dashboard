@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- Official Handy Services PH logo, presented for dark + light use.
+     Source files: assets/handy-icon.png (mark), assets/handy-logo.png (wordmark). -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --brand-orange:#ff6000; --fg-1:#f3f6fc; --fg-3:#7b8699; --bg-0:#080b18; }
+  *{ box-sizing:border-box; margin:0; }
+  body{ background:var(--bg-0); font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+        min-height:100vh; display:grid; place-items:center; gap:40px; padding:48px; }
+  .row{ display:flex; align-items:center; gap:44px; flex-wrap:wrap; justify-content:center; }
+  .chip{ background:#fff; border-radius:18px; padding:9px; box-shadow:0 6px 22px rgba(0,0,0,.45); }
+  .chip img{ display:block; object-fit:contain; }
+  .lockup{ display:flex; align-items:center; gap:14px; }
+  .word{ display:flex; flex-direction:column; line-height:1; }
+  .word b{ font-weight:800; letter-spacing:-.02em; color:var(--fg-1); }
+  .word b i{ font-style:normal; color:var(--brand-orange); }
+  .word small{ font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--fg-3); margin-top:.3em; }
+  .light{ background:#fff; border-radius:14px; padding:14px 22px; }
+  .light img{ display:block; }
+  .label{ position:fixed; top:16px; left:16px; font-size:11px; letter-spacing:.08em;
+           text-transform:uppercase; color:var(--fg-3); }
+</style>
+</head>
+<body>
+  <div class="label">Official logo · mark + wordmark</div>
+
+  <div class="row">
+    <img src="../assets/handy-icon-cut.png" width="84" height="84" alt="Handy mark (transparent)">
+    <span class="lockup">
+      <img src="../assets/handy-icon-cut.png" width="56" height="56" alt="">
+      <span class="word" style="font-size:30px"><b>Handy<i>.</i></b><small style="font-size:10px">Services&nbsp;PH</small></span>
+    </span>
+  </div>
+
+  <div class="row">
+    <span class="light"><img src="../assets/handy-logo.png" height="56" alt="Handy wordmark (light bg)"></span>
+    <span class="chip"><img src="../assets/handy-icon.png" width="44" height="44" alt=""></span>
+  </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--bg-0);font-family:var(--font-sans);}
+  .card{padding:24px 30px;display:flex;align-items:center;gap:30px;}
+  .mark{width:60px;height:60px;object-fit:contain;flex:none;}
+  .lockup{display:flex;align-items:center;gap:13px;}
+  .lockup img{width:44px;height:44px;object-fit:contain;}
+  .word{display:flex;flex-direction:column;line-height:1;}
+  .word b{font-weight:800;letter-spacing:-.02em;color:var(--fg-1);font-size:22px;}
+  .word b i{font-style:normal;color:var(--brand-orange);}
+  .word small{font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-3);font-size:9px;margin-top:5px;}
+  .chip{width:54px;height:54px;border-radius:13px;background:#fff;padding:6px;flex:none;}
+  .chip img{width:100%;height:100%;object-fit:contain;display:block;}
+  .lab{font-size:11px;color:var(--fg-4);font-family:var(--font-mono);margin-left:auto;max-width:150px;line-height:1.5;}
+</style></head>
+<body><div class="card">
+  <img class="mark" src="../assets/handy-icon-cut.png" alt="Handy mark (transparent)">
+  <span class="lockup"><img src="../assets/handy-icon-cut.png" alt="">
+    <span class="word"><b>Handy<i>.</i></b><small>Services&nbsp;PH</small></span></span>
+  <span class="chip"><img src="../assets/handy-icon.png" alt="Handy mark on white"></span>
+  <span class="lab">Floats on dark (bg knocked out) · white chip = fallback</span>
+</div></body></html>

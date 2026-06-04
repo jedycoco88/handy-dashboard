@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--bg-0);font-family:var(--font-sans);}
+  .card{padding:24px 28px;display:flex;flex-direction:column;gap:12px;}
+  .field{display:flex;align-items:center;gap:9px;background:var(--bg-3);
+         border:1px solid var(--border-2);border-radius:var(--r-md);padding:10px 13px;color:var(--fg-2);}
+  .field svg{width:17px;height:17px;color:var(--fg-3);}
+  .field input{flex:1;background:none;border:none;outline:none;color:var(--fg-1);
+               font-family:var(--font-sans);font-size:14px;}
+  .field.focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft);}
+  .field input::placeholder{color:var(--fg-4);}
+  .row{display:flex;gap:10px;}
+</style></head>
+<body><div class="card">
+  <div class="field"><i data-lucide="search"></i><input placeholder="Search bookings, clients, HPs…"></div>
+  <div class="row">
+    <div class="field focus" style="flex:1"><i data-lucide="user"></i><input value="Maria Santos"></div>
+    <div class="field" style="flex:1;justify-content:space-between"><span>Cleaning</span><i data-lucide="chevron-down"></i></div>
+  </div>
+</div>
+<script src="https://unpkg.com/lucide@latest"></script><script>lucide.createIcons();</script>
+</body></html>

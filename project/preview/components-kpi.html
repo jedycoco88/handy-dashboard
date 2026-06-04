@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--bg-0);font-family:var(--font-sans);}
+  .card{padding:24px 28px;display:flex;gap:14px;}
+  .kpi{flex:1;background:var(--bg-1);border:1px solid var(--border-2);border-radius:var(--r-lg);
+       padding:16px 18px;box-shadow:var(--shadow-md),inset 0 1px 0 rgba(255,255,255,.04);
+       display:flex;flex-direction:column;gap:10px;}
+  .top{display:flex;align-items:center;justify-content:space-between;}
+  .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;}
+  .ic svg{width:18px;height:18px;}
+  .num{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-weight:700;
+       font-size:34px;color:var(--fg-1);letter-spacing:-.02em;line-height:1;}
+  .lab{font-size:12px;color:var(--fg-3);font-weight:600;}
+  .delta{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;}
+  .delta svg{width:13px;height:13px;}
+</style></head>
+<body><div class="card">
+  <div class="kpi">
+    <div class="top"><span class="lab">NEW INQUIRY</span><span class="ic" style="background:var(--stage-inquiry-soft);color:var(--stage-inquiry)"><i data-lucide="inbox"></i></span></div>
+    <div class="num">134</div>
+    <div class="delta" style="color:var(--success)"><i data-lucide="trending-up"></i>+12 today</div>
+  </div>
+  <div class="kpi">
+    <div class="top"><span class="lab">CONFIRMED</span><span class="ic" style="background:var(--stage-confirmed-soft);color:var(--stage-confirmed)"><i data-lucide="calendar-check"></i></span></div>
+    <div class="num">31</div>
+    <div class="delta" style="color:var(--fg-3)">8 today · 23 upcoming</div>
+  </div>
+  <div class="kpi">
+    <div class="top"><span class="lab">FOR PAYMENT</span><span class="ic" style="background:var(--stage-payment-soft);color:var(--stage-payment)"><i data-lucide="wallet"></i></span></div>
+    <div class="num ds-money">87,250</div>
+    <div class="delta" style="color:var(--warning)"><i data-lucide="clock"></i>6 awaiting downpayment</div>
+  </div>
+</div>
+<script src="https://unpkg.com/lucide@latest"></script><script>lucide.createIcons();</script>
+</body></html>

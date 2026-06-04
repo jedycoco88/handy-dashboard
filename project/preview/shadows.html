@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--bg-0);font-family:var(--font-sans);}
+  .card{padding:30px 28px;display:flex;gap:22px;align-items:center;}
+  .col{display:flex;flex-direction:column;align-items:center;gap:12px;}
+  .box{width:96px;height:60px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-lg);}
+  .lab{font-family:var(--font-mono);font-size:11px;color:var(--fg-3);}
+</style></head>
+<body><div class="card">
+  <div class="col"><div class="box" style="box-shadow:var(--shadow-sm)"></div><span class="lab">shadow-sm</span></div>
+  <div class="col"><div class="box" style="box-shadow:var(--shadow-md)"></div><span class="lab">shadow-md</span></div>
+  <div class="col"><div class="box" style="box-shadow:var(--shadow-lg)"></div><span class="lab">shadow-lg</span></div>
+  <div class="col"><div class="box" style="box-shadow:var(--glow-primary)"></div><span class="lab">focus glow</span></div>
+</div></body></html>

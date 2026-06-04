@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--bg-0);font-family:var(--font-sans);}
+  .card{padding:22px 26px;display:flex;gap:14px;}
+  .col{width:268px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-lg);overflow:hidden;}
+  .col-h{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;
+         border-top:3px solid var(--stage-confirmed);background:var(--bg-1);}
+  .col-h b{font-size:12px;color:var(--fg-1);font-weight:700;}
+  .col-h .count{font-family:var(--font-mono);font-size:12px;color:var(--fg-3);}
+  .body{padding:10px;display:flex;flex-direction:column;gap:9px;}
+  .bk{background:var(--bg-1);border:1px solid var(--border-2);border-radius:var(--r-md);
+      padding:11px 12px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow-sm);}
+  .bk-top{display:flex;align-items:center;justify-content:space-between;}
+  .svc{font-size:13px;font-weight:700;color:var(--fg-1);}
+  .id{font-family:var(--font-mono);font-size:11px;color:var(--fg-4);}
+  .meta{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--fg-3);}
+  .meta svg{width:13px;height:13px;}
+  .foot{display:flex;align-items:center;justify-content:space-between;margin-top:2px;}
+  .av{width:22px;height:22px;border-radius:50%;background:var(--primary-soft);color:var(--brand-blue-bright);
+      display:grid;place-items:center;font-size:10px;font-weight:700;}
+  .amt{font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:600;}
+</style></head>
+<body><div class="card">
+  <div class="col">
+    <div class="col-h"><b>Confirmed</b><span class="count">2</span></div>
+    <div class="body">
+      <div class="bk">
+        <div class="bk-top"><span class="svc">Deep Cleaning</span><span class="id">#HS-2041</span></div>
+        <div class="meta"><i data-lucide="map-pin"></i>Quezon City</div>
+        <div class="meta"><i data-lucide="calendar"></i>Tue, Jun 9 · 9:00 AM</div>
+        <div class="foot"><span class="av">MS</span><span class="amt ds-money">2,500</span></div>
+      </div>
+      <div class="bk">
+        <div class="bk-top"><span class="svc">Aircon · Plumbing</span><span class="id">#HS-2044</span></div>
+        <div class="meta"><i data-lucide="map-pin"></i>Makati</div>
+        <div class="meta"><i data-lucide="calendar"></i>Wed, Jun 10 · 1:00 PM</div>
+        <div class="foot"><span class="av">Jr</span><span class="amt ds-money">4,800</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://unpkg.com/lucide@latest"></script><script>lucide.createIcons();</script>
+</body></html>

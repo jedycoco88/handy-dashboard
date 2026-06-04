@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--bg-0);font-family:var(--font-sans);}
+  .card{padding:22px 26px;display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;
+        padding:6px 11px;border-radius:var(--r-pill);}
+  .chip::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;}
+</style></head>
+<body><div class="card">
+  <span class="chip" style="background:var(--stage-inquiry-soft);color:var(--stage-inquiry)">New Inquiry</span>
+  <span class="chip" style="background:var(--stage-intake-soft);color:var(--stage-intake)">HP Applications</span>
+  <span class="chip" style="background:var(--stage-matching-soft);color:var(--stage-matching)">HP Matching</span>
+  <span class="chip" style="background:var(--stage-quotation-soft);color:var(--stage-quotation)">Quotation</span>
+  <span class="chip" style="background:var(--stage-payment-soft);color:var(--stage-payment)">For Downpayment</span>
+  <span class="chip" style="background:var(--stage-confirmed-soft);color:var(--stage-confirmed)">Confirmed</span>
+  <span class="chip" style="background:var(--stage-progress-soft);color:var(--stage-progress)">Job In Progress</span>
+  <span class="chip" style="background:var(--stage-completed-soft);color:var(--stage-completed)">Job Completed</span>
+  <span class="chip" style="background:var(--stage-issue-soft);color:var(--stage-issue)">Cancelled · NCNS</span>
+  <span class="chip" style="background:var(--stage-neutral-soft);color:var(--stage-neutral)">Dump</span>
+</div></body></html>

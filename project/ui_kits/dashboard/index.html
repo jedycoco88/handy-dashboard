@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handy Services PH — Operations Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="data.jsx"></script>
+<script type="text/babel" src="Chrome.jsx"></script>
+<script type="text/babel" src="Overview.jsx"></script>
+<script type="text/babel" src="Pipeline.jsx"></script>
+<script type="text/babel" src="Inbox.jsx"></script>
+<script type="text/babel" src="Calendar.jsx"></script>
+<script type="text/babel" src="BookingDetail.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+function ComingSoon({ view }) {
+  const map = {
+    clients: ["users", "Clients", "A unified CRM of every client — contact details, booking history, and lifetime value."],
+    hps: ["hard-hat", "Handy Pros", "Your roster of vetted workers — skills, ratings, availability, and payout status."],
+    payments: ["wallet", "Payments", "Downpayments, balances, HP payouts, and e-receipts in one ledger."],
+    settings: ["settings", "Settings", "Pipeline stages, automations (n8n), channels, and team access."],
+  };
+  const [icon, title, body] = map[view] || ["circle-dashed", "Coming soon", ""];
+  return (
+    <div className="hs-view"><div className="hs-scroll"><div style={{
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      gap: 14, height: "100%", minHeight: 420, textAlign: "center", color: "var(--fg-3)" }}>
+      <span className="hs-kpi-ic" style={{ width: 56, height: 56, borderRadius: 16,
+        background: "var(--bg-2)", color: "var(--fg-2)" }}><Icon name={icon} size={26} /></span>
+      <h2 style={{ margin: 0, color: "var(--fg-1)" }}>{title}</h2>
+      <p style={{ maxWidth: 380, margin: 0, lineHeight: 1.55 }}>{body}</p>
+      <span className="hs-badge" style={{ color: "var(--accent)", background: "var(--accent-soft)" }}>Not in this kit yet</span>
+    </div></div></div>
+  );
+}
+
+function App() {
+  const [view, setView] = React.useState("overview");
+  const [collapsed, setCollapsed] = React.useState(false);
+  const [booking, setBooking] = React.useState(null);
+
+  const openBooking = (b) => setBooking(b);
+
+  let main;
+  if (view === "overview") main = <Overview openBooking={openBooking} setView={setView} />;
+  else if (view === "pipeline") main = <Pipeline openBooking={openBooking} />;
+  else if (view === "inbox") main = <Inbox openBooking={openBooking} />;
+  else if (view === "calendar") main = <Calendar openBooking={openBooking} />;
+  else main = <ComingSoon view={view} />;
+
+  return (
+    <div className="hs-app">
+      <Sidebar view={view} setView={setView} collapsed={collapsed} setCollapsed={setCollapsed} />
+      <div className="hs-main">
+        <Topbar view={view} onNewBooking={() => setView("pipeline")} />
+        <div className="hs-view">{main}</div>
+      </div>
+      {booking && <BookingDetail booking={booking} onClose={() => setBooking(null)} />}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

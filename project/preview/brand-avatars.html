@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--bg-0);font-family:var(--font-sans);}
+  .card{padding:26px 30px;display:flex;align-items:center;gap:14px;}
+  .av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:700;
+      font-size:16px;color:#fff;flex:none;position:relative;}
+  .ring{box-shadow:0 0 0 2px var(--bg-0),0 0 0 4px var(--primary);}
+  .on::after{content:"";position:absolute;right:1px;bottom:1px;width:11px;height:11px;border-radius:50%;
+     background:var(--success);border:2px solid var(--bg-0);}
+  .ph{background:var(--bg-3);color:var(--fg-3);}
+  .ph svg{width:20px;height:20px;}
+  .sm{width:30px;height:30px;font-size:11px;}
+  .lab{font-size:11px;color:var(--fg-4);margin-left:auto;font-family:var(--font-mono);}
+</style></head>
+<body><div class="card">
+  <span class="av" style="background:#7d4cdb">RC</span>
+  <span class="av on" style="background:#0f766e">JM</span>
+  <span class="av ring" style="background:#2f6bff">MS</span>
+  <span class="av" style="background:#f7a823;color:var(--accent-fg)">AD</span>
+  <span class="av ph"><i data-lucide="user"></i></span>
+  <span class="av sm" style="background:#c2410c">VL</span>
+  <span class="lab">Initials chip · keyed to name · circular · online dot · primary ring = selected</span>
+</div>
+<script src="https://unpkg.com/lucide@latest"></script><script>lucide.createIcons();</script>
+</body></html>

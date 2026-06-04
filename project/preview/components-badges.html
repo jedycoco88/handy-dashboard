@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--bg-0);font-family:var(--font-sans);}
+  .card{padding:24px 28px;display:flex;flex-direction:column;gap:14px;}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;
+         padding:4px 9px;border-radius:var(--r-pill);letter-spacing:.02em;}
+  .badge svg{width:12px;height:12px;}
+  .dot::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;}
+  .pri{background:var(--primary-soft);color:var(--brand-blue-bright);}
+  .urgent{background:var(--danger-soft);color:var(--danger);}
+  .count{font-family:var(--font-mono);background:var(--bg-4);color:var(--fg-1);
+         min-width:22px;height:20px;border-radius:var(--r-pill);display:inline-grid;place-items:center;font-size:11px;font-weight:700;padding:0 6px;}
+</style></head>
+<body><div class="card">
+  <div class="row">
+    <span class="badge dot pri">Confirmed</span>
+    <span class="badge dot" style="background:var(--success-soft);color:var(--success)">Job Completed</span>
+    <span class="badge dot" style="background:var(--warning-soft);color:var(--warning)">Downpayment pending</span>
+    <span class="badge urgent"><i data-lucide="alarm-clock"></i>Waiting 26h</span>
+  </div>
+  <div class="row">
+    <span class="badge" style="background:var(--accent-soft);color:var(--accent)"><i data-lucide="star"></i>VIP client</span>
+    <span class="badge" style="background:var(--bg-3);color:var(--fg-2)">Cleaning</span>
+    <span class="badge" style="background:var(--bg-3);color:var(--fg-2)">Quezon City</span>
+    <span style="font-size:12px;color:var(--fg-3)">New&nbsp;Inquiry</span><span class="count">134</span>
+    <span style="font-size:12px;color:var(--fg-3)">Dump</span><span class="count">394</span>
+  </div>
+</div>
+<script src="https://unpkg.com/lucide@latest"></script><script>lucide.createIcons();</script>
+</body></html>
